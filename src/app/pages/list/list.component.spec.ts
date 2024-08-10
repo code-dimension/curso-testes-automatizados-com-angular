@@ -3,10 +3,7 @@ import { ListComponent } from './list.component';
 import { By } from '@angular/platform-browser';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { of } from 'rxjs';
-
-class FakeTasksService implements TasksService {
-  getAll = jest.fn();
-}
+import { FakeTasksService } from "@testing/mocks/fake-tasks.service";
 
 describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;
