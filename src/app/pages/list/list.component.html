@@ -4,14 +4,7 @@
       <h1 class="text-center">Tarefas Pendentes</h1>
 
       @for (task of pendingTasks(); track task.title ) {
-      <div
-        class="card bg-neutral text-neutral-content"
-        data-testid="todo-list-item"
-      >
-        <div class="card-body items-center text-center">
-          <h2 class="card-title">{{ task.title }}</h2>
-        </div>
-      </div>
+      <app-list-item [task]="task" data-testid="todo-list-item"></app-list-item>
       } @empty {
       <app-no-items class="flex justify-center" />
       }
@@ -21,14 +14,7 @@
       <h1 class="text-center">Tarefas Concluídas</h1>
 
       @for (task of completedTasks(); track task.title ) {
-      <div
-        class="card bg-neutral text-neutral-content"
-        data-testid="completed-list-item"
-      >
-        <div class="card-body items-center text-center">
-          <h2 class="card-title">{{ task.title }}</h2>
-        </div>
-      </div>
+      <app-list-item [task]="task" data-testid="completed-list-item"></app-list-item>
       } @empty {
       <app-no-items class="flex justify-center" />
       }
