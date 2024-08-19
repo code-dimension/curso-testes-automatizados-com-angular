@@ -4,7 +4,7 @@
       <h1 class="text-center">Tarefas Pendentes</h1>
 
       @for (task of pendingTasks(); track task.title ) {
-      <app-list-item [task]="task" data-testid="todo-list-item"></app-list-item>
+      <app-list-item [task]="task" data-testid="todo-list-item" (complete)="onComplete($event)"></app-list-item>
       } @empty {
       <app-no-items class="flex justify-center" />
       }

@@ -13,17 +13,29 @@ import { ListItemComponent } from './list-item/list-item.component';
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
-
   tasksService = inject(TasksService);
 
   tasks = signal<Task[]>([]);
 
-  completedTasks = computed(() => this.tasks().filter(task => task.completed))
-  
-  pendingTasks = computed(() => this.tasks().filter(task => !task.completed))
+  completedTasks = computed(() =>
+    this.tasks().filter((task) => task.completed)
+  );
+
+  pendingTasks = computed(() => this.tasks().filter((task) => !task.completed));
 
   ngOnInit() {
-    this.tasksService.getAll().subscribe(tasks => this.tasks.set(tasks));
+    this.tasksService.getAll().subscribe((tasks) => this.tasks.set(tasks));
   }
 
+  onComplete(task: Task) {
+    this.tasksService.patch(task.id, { completed: true }).subscribe((task) => {
+      this.updateTask(task);
+    });
+  }
+
+  private updateTask(task: Task) {
+    this.tasks.update((tasks) =>
+      tasks.map((t) => (t.id === task.id ? task : t))
+    );
+  }
 }
