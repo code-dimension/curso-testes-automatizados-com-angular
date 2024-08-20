@@ -10,13 +10,17 @@ import { Task } from 'src/app/shared/interfaces/task.interface';
   styleUrl: './list-item.component.scss',
 })
 export class ListItemComponent {
-
   task = input.required<Task>();
 
   complete = output<Task>();
+
+  notComplete = output<Task>();
 
   onComplete() {
     this.complete.emit(this.task());
   }
 
+  onMarkAsPending() {
+    this.notComplete.emit(this.task());
+  }
 }

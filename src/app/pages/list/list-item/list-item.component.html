@@ -5,6 +5,15 @@
     </h2>
 
     <div class="w-full card-actions justify-end">
+      @if (task().completed) {
+      <button
+        class="btn btn-primary btn-xs"
+        data-testid="list-item-mark-as-pending-action"
+        (click)="onMarkAsPending()"
+      >
+        Marcar como pendente
+      </button>
+      } @else {
       <button
         class="btn btn-primary btn-xs"
         data-testid="list-item-complete-action"
@@ -12,6 +21,7 @@
       >
         Completar
       </button>
+      }
     </div>
   </div>
 </div>
