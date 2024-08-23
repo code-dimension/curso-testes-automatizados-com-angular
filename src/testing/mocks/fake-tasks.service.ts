@@ -5,4 +5,5 @@ export class FakeTasksService implements TasksService {
   httpClient!: HttpClient;
   getAll = jest.fn();
   patch = jest.fn();
+  delete = jest.fn();
 }
