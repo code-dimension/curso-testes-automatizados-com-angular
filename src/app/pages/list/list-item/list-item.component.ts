@@ -16,11 +16,17 @@ export class ListItemComponent {
 
   notComplete = output<Task>();
 
+  remove = output<Task>();
+
   onComplete() {
     this.complete.emit(this.task());
   }
 
   onMarkAsPending() {
     this.notComplete.emit(this.task());
+  }
+
+  onRemove() {
+    this.remove.emit(this.task());
   }
 }
