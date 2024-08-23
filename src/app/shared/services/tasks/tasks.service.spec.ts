@@ -67,4 +67,24 @@ describe('TasksService', () => {
 
     expect(result).toEqual(fakeResponse);
   }));
+
+  it('delete() deve remover uma tarefa', fakeAsync(() => {
+    const fakeTask: Task = { id: '1', title: 'Item 1', completed: false };
+
+    let result: Task | null = null;
+
+    service.delete(fakeTask.id).subscribe((response) => {
+      result = response;
+    });
+
+    const request = httpTestingController.expectOne((req) => {
+      return req.method === 'DELETE' && req.url === '/api/tasks/1';
+    });
+
+    request.flush(fakeTask);
+
+    tick();
+
+    expect(result).toEqual(fakeTask);
+  }));
 });
