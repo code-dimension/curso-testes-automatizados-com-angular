@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Task } from '../../interfaces/task.interface';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,5 +16,9 @@ export class TasksService {
 
   patch(id: string, payload: Partial<Task>): Observable<Task> {
     return this.httpClient.patch<Task>(`/api/tasks/${id}`, payload);
+  }
+
+  delete(id: string): Observable<Task> {
+    return this.httpClient.delete<Task>(`/api/tasks/${id}`);
   }
 }
