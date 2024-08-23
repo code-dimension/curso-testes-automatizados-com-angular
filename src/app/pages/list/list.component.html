@@ -14,7 +14,7 @@
       <h1 class="text-center">Tarefas Concluídas</h1>
 
       @for (task of completedTasks(); track task.title ) {
-      <app-list-item [task]="task" data-testid="completed-list-item"></app-list-item>
+      <app-list-item [task]="task" data-testid="completed-list-item" (notComplete)="onNotComplete($event)"></app-list-item>
       } @empty {
       <app-no-items class="flex justify-center" />
       }

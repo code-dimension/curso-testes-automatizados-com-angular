@@ -33,6 +33,12 @@ export class ListComponent implements OnInit {
     });
   }
 
+  onNotComplete(task: Task) {
+    this.tasksService.patch(task.id, { completed: false }).subscribe((task) => {
+      this.updateTask(task);
+    });
+  }
+
   private updateTask(task: Task) {
     this.tasks.update((tasks) =>
       tasks.map((t) => (t.id === task.id ? task : t))
