@@ -8,6 +8,7 @@ import { ListItemComponent } from './list-item/list-item.component';
 import { FakeListItemComponent } from '@testing/mocks/fake-list-item.component';
 import { Task } from 'src/app/shared/interfaces/task.interface';
 import { TestHelper } from '@testing/helpers/test-helper';
+import { MockComponent, MockProvider } from 'ng-mocks';
 
 describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;
@@ -18,10 +19,7 @@ describe('ListComponent', () => {
     TestBed.configureTestingModule({
       imports: [ListComponent],
       providers: [
-        {
-          provide: TasksService,
-          useClass: FakeTasksService,
-        },
+        MockProvider(TasksService),
       ],
     });
 
@@ -30,7 +28,7 @@ describe('ListComponent', () => {
         imports: [ListItemComponent],
       },
       add: {
-        imports: [FakeListItemComponent],
+        imports: [MockComponent(ListItemComponent)],
       },
     });
 
@@ -68,15 +66,15 @@ describe('ListComponent', () => {
 
     expect(todoItems.length).toBe(3);
 
-    expect(todoItems[0].componentInstance.task()).toEqual({
+    expect(todoItems[0].componentInstance.task).toEqual({
       title: 'Item 1',
       completed: false,
     });
-    expect(todoItems[1].componentInstance.task()).toEqual({
+    expect(todoItems[1].componentInstance.task).toEqual({
       title: 'Item 2',
       completed: false,
     });
-    expect(todoItems[2].componentInstance.task()).toEqual({
+    expect(todoItems[2].componentInstance.task).toEqual({
       title: 'Item 3',
       completed: false,
     });
@@ -93,15 +91,15 @@ describe('ListComponent', () => {
 
     expect(completedItems.length).toBe(3);
 
-    expect(completedItems[0].componentInstance.task()).toEqual({
+    expect(completedItems[0].componentInstance.task).toEqual({
       title: 'Item 4',
       completed: true,
     });
-    expect(completedItems[1].componentInstance.task()).toEqual({
+    expect(completedItems[1].componentInstance.task).toEqual({
       title: 'Item 5',
       completed: true,
     });
-    expect(completedItems[2].componentInstance.task()).toEqual({
+    expect(completedItems[2].componentInstance.task).toEqual({
       title: 'Item 6',
       completed: true,
     });
