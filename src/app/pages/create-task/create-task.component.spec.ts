@@ -6,6 +6,7 @@ import { FakeTasksService } from '@testing/mocks/fake-tasks.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Task, TaskWithoutId } from 'src/app/shared/interfaces/task.interface';
+import { MockProvider } from 'ng-mocks';
 
 describe('CreateTaskComponent', () => {
   let fixture: ComponentFixture<CreateTaskComponent>;
@@ -16,12 +17,7 @@ describe('CreateTaskComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CreateTaskComponent],
-      providers: [
-        {
-          provide: TasksService,
-          useClass: FakeTasksService,
-        },
-      ],
+      providers: [MockProvider(TasksService)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateTaskComponent);
