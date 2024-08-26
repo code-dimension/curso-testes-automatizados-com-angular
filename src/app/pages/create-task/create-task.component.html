@@ -1,0 +1,25 @@
+<section class="flex justify-center">
+  <form
+    class="space-y-4"
+    [formGroup]="taskForm"
+    (ngSubmit)="onSubmit()"
+    data-testid="create-task-form"
+  >
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <span class="label-text">Título</span>
+      </div>
+      <input
+        type="text"
+        placeholder="Digite o título da tarefa"
+        class="input input-bordered w-full max-w-xs"
+        formControlName="title"
+        data-testid="create-task-title"
+      />
+    </label>
+
+    <section class="flex justify-end">
+      <button class="btn btn-primary btn-xs" type="submit">Criar tarefa</button>
+    </section>
+  </form>
+</section>
