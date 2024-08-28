@@ -4,11 +4,12 @@ import { Task } from 'src/app/shared/interfaces/task.interface';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { NoItemsComponent } from './no-items/no-items.component';
 import { ListItemComponent } from './list-item/list-item.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, NoItemsComponent, ListItemComponent],
+  imports: [CommonModule, NoItemsComponent, ListItemComponent, RouterLink],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
@@ -54,5 +55,4 @@ export class ListComponent implements OnInit {
   private removeTask(task: Task) {
     this.tasks.update((tasks) => tasks.filter((t) => t.id !== task.id));
   }
-
 }
