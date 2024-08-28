@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ListComponent } from './list.component';
 import { By } from '@angular/platform-browser';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
@@ -9,6 +9,8 @@ import { FakeListItemComponent } from '@testing/mocks/fake-list-item.component';
 import { Task } from 'src/app/shared/interfaces/task.interface';
 import { TestHelper } from '@testing/helpers/test-helper';
 import { MockComponent, MockProvider } from 'ng-mocks';
+import { Location } from '@angular/common';
+import { provideRouter } from '@angular/router';
 
 describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;
@@ -20,6 +22,12 @@ describe('ListComponent', () => {
       imports: [ListComponent],
       providers: [
         MockProvider(TasksService),
+        provideRouter([
+          {
+            path: 'create',
+            component: MockComponent(ListComponent),
+          },
+        ]),
       ],
     });
 
@@ -116,21 +124,24 @@ describe('ListComponent', () => {
       const completedTask = { ...fakeTask, completed: true };
 
       (tasksService.patch as jest.Mock).mockReturnValue(of(completedTask));
-      
+
       fixture.detectChanges();
-      
+
       expect(testHelper.queryByTestId('completed-list-item')).toBeNull();
-      
+
       const todoItemDebugEl = testHelper.queryByTestId('todo-list-item');
-      
-      (todoItemDebugEl.componentInstance as FakeListItemComponent).complete.emit(fakeTask);
-      
-      expect(tasksService.patch).toHaveBeenCalledWith(fakeTask.id, { completed: true });
+
+      (
+        todoItemDebugEl.componentInstance as FakeListItemComponent
+      ).complete.emit(fakeTask);
+
+      expect(tasksService.patch).toHaveBeenCalledWith(fakeTask.id, {
+        completed: true,
+      });
 
       fixture.detectChanges();
 
       expect(testHelper.queryByTestId('completed-list-item')).toBeTruthy();
-
     });
 
     it('deve remover uma tarefa', () => {
@@ -141,13 +152,15 @@ describe('ListComponent', () => {
       (tasksService.getAll as jest.Mock).mockReturnValue(of(fakeTasks));
 
       (tasksService.delete as jest.Mock).mockReturnValue(of(fakeTask));
-      
+
       fixture.detectChanges();
-      
+
       const todoItemDebugEl = testHelper.queryByTestId('todo-list-item');
-      
-      (todoItemDebugEl.componentInstance as FakeListItemComponent).remove.emit(fakeTask);
-      
+
+      (todoItemDebugEl.componentInstance as FakeListItemComponent).remove.emit(
+        fakeTask
+      );
+
       expect(tasksService.delete).toHaveBeenCalledWith(fakeTask.id);
 
       fixture.detectChanges();
@@ -166,24 +179,31 @@ describe('ListComponent', () => {
 
       const pendingTaskResponse = { ...fakeTask, completed: false };
 
-      (tasksService.patch as jest.Mock).mockReturnValue(of(pendingTaskResponse));
-      
+      (tasksService.patch as jest.Mock).mockReturnValue(
+        of(pendingTaskResponse)
+      );
+
       fixture.detectChanges();
-      
+
       expect(testHelper.queryByTestId('completed-list-item')).toBeTruthy();
       expect(testHelper.queryByTestId('todo-list-item')).toBeNull();
-      
-      const completedItemDebugEl = testHelper.queryByTestId('completed-list-item');
-      
-      (completedItemDebugEl.componentInstance as FakeListItemComponent).notComplete.emit(fakeTask);
-      
-      expect(tasksService.patch).toHaveBeenCalledWith(fakeTask.id, { completed: false });
+
+      const completedItemDebugEl = testHelper.queryByTestId(
+        'completed-list-item'
+      );
+
+      (
+        completedItemDebugEl.componentInstance as FakeListItemComponent
+      ).notComplete.emit(fakeTask);
+
+      expect(tasksService.patch).toHaveBeenCalledWith(fakeTask.id, {
+        completed: false,
+      });
 
       fixture.detectChanges();
 
       expect(testHelper.queryByTestId('todo-list-item')).toBeTruthy();
       expect(testHelper.queryByTestId('completed-list-item')).toBeNull();
-
     });
 
     it('deve remover uma tarefa', () => {
@@ -194,13 +214,15 @@ describe('ListComponent', () => {
       (tasksService.getAll as jest.Mock).mockReturnValue(of(fakeTasks));
 
       (tasksService.delete as jest.Mock).mockReturnValue(of(fakeTask));
-      
+
       fixture.detectChanges();
-      
+
       const todoItemDebugEl = testHelper.queryByTestId('completed-list-item');
-      
-      (todoItemDebugEl.componentInstance as FakeListItemComponent).remove.emit(fakeTask);
-      
+
+      (todoItemDebugEl.componentInstance as FakeListItemComponent).remove.emit(
+        fakeTask
+      );
+
       expect(tasksService.delete).toHaveBeenCalledWith(fakeTask.id);
 
       fixture.detectChanges();
@@ -208,4 +230,20 @@ describe('ListComponent', () => {
       expect(testHelper.queryByTestId('completed-list-item')).toBeNull();
     });
   });
+
+  it('deve redirecionar para a rota de criação de tarefa', fakeAsync(() => {
+    const location = TestBed.inject(Location);
+
+    (tasksService.getAll as jest.Mock).mockReturnValue(of([]));
+
+    fixture.detectChanges();
+
+    expect(location.path()).toBe('');
+
+    testHelper.click('list-create-task');
+
+    tick();
+    
+    expect(location.path()).toBe('/create');
+  }));
 });
