@@ -14,8 +14,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@testing/mocks/*": ["src/testing/mocks/*"],
       "@testing/helpers/*": ["src/testing/helpers/*"],
+      "@testing/mocks/*": ["src/testing/mocks/*"]
     },
     "useDefineForClassFields": false,
     "esModuleInterop": true,
