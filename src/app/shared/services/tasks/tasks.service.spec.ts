@@ -87,7 +87,7 @@ describe('TasksService', () => {
 
     expect(result).toEqual(fakeTask);
   }));
-  
+
   it('post() deve criar uma tarefa', fakeAsync(() => {
     const fakeTask: TaskWithoutId = { title: 'Item 1', completed: false };
 
@@ -108,5 +108,25 @@ describe('TasksService', () => {
     tick();
 
     expect(result).toEqual(response);
+  }));
+
+  it('put() deve editar uma tarefa', fakeAsync(() => {
+    const fakeTask: Task = { id: '1', title: 'Item 1', completed: false };
+
+    let result: Task | null = null;
+
+    service.put(fakeTask.id, fakeTask).subscribe((response: Task) => {
+      result = response;
+    });
+
+    const request = httpTestingController.expectOne((req) => {
+      return req.method === 'PUT' && req.url === `/api/tasks/${fakeTask.id}`;
+    });
+
+    request.flush(fakeTask);
+
+    tick();
+
+    expect(result).toEqual(fakeTask);
   }));
 });
