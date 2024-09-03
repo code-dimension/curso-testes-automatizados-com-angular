@@ -18,11 +18,16 @@ export class TasksService {
     return this.httpClient.post<Task>('/api/tasks/', payload);
   }
 
+  put(id: string, payload: TaskWithoutId): Observable<Task> {
+    return this.httpClient.put<Task>(`/api/tasks/${id}`, payload);
+  }
+  
   patch(id: string, payload: Partial<Task>): Observable<Task> {
     return this.httpClient.patch<Task>(`/api/tasks/${id}`, payload);
   }
-
+  
   delete(id: string): Observable<Task> {
     return this.httpClient.delete<Task>(`/api/tasks/${id}`);
   }
+
 }
