@@ -13,4 +13,11 @@ export const appRoutes: Route[] = [
         (m) => m.CreateTaskComponent
       ),
   },
+  {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('./pages/edit-task/edit-task.component').then(
+        (m) => m.EditTaskComponent
+      ),
+  },
 ];
