@@ -11,6 +11,7 @@ import { TestHelper } from '@testing/helpers/test-helper';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { Location } from '@angular/common';
 import { provideRouter } from '@angular/router';
+import { EditTaskComponent } from '../edit-task/edit-task.component';
 
 describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;
@@ -26,6 +27,10 @@ describe('ListComponent', () => {
           {
             path: 'create',
             component: MockComponent(ListComponent),
+          },
+          {
+            path: 'edit/:id',
+            component: MockComponent(EditTaskComponent),
           },
         ]),
       ],
@@ -167,6 +172,30 @@ describe('ListComponent', () => {
 
       expect(testHelper.queryByTestId('todo-list-item')).toBeNull();
     });
+
+    it('deve redirecionar para a rota de edição de tarefa', fakeAsync(() => {
+      const fakeTask: Task = { id: '1', title: 'Item 1', completed: false };
+
+      const fakeTasks: Task[] = [fakeTask];
+
+      (tasksService.getAll as jest.Mock).mockReturnValue(of(fakeTasks));
+
+      fixture.detectChanges();
+
+      const todoItemDebugEl = testHelper.queryByTestId('todo-list-item');
+
+      (todoItemDebugEl.componentInstance as ListItemComponent).edit.emit(
+        fakeTask
+      );
+
+      fixture.detectChanges();
+
+      const location = TestBed.inject(Location);
+
+      tick();
+
+      expect(location.path()).toBe(`/edit/${fakeTask.id}`);
+    }));
   });
 
   describe('quando a tarefa está concluída', () => {
@@ -229,6 +258,30 @@ describe('ListComponent', () => {
 
       expect(testHelper.queryByTestId('completed-list-item')).toBeNull();
     });
+
+    it('deve redirecionar para a rota de edição de tarefa', fakeAsync(() => {
+      const fakeTask: Task = { id: '1', title: 'Item 1', completed: true };
+
+      const fakeTasks: Task[] = [fakeTask];
+
+      (tasksService.getAll as jest.Mock).mockReturnValue(of(fakeTasks));
+
+      fixture.detectChanges();
+
+      const todoItemDebugEl = testHelper.queryByTestId('completed-list-item');
+
+      (todoItemDebugEl.componentInstance as ListItemComponent).edit.emit(
+        fakeTask
+      );
+
+      fixture.detectChanges();
+
+      const location = TestBed.inject(Location);
+
+      tick();
+
+      expect(location.path()).toBe(`/edit/${fakeTask.id}`);
+    }));
   });
 
   it('deve redirecionar para a rota de criação de tarefa', fakeAsync(() => {
