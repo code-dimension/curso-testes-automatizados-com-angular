@@ -14,6 +14,7 @@ async function setup(fakeTask: Task) {
       (complete)="onCompleteTask($event)"
       (notComplete)="onNotComplete($event)"
       (remove)="onRemove($event)"
+      (edit)="onEdit($event)"
     ></app-list-item>`,
   })
   class HostComponent {
@@ -27,6 +28,9 @@ async function setup(fakeTask: Task) {
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onRemove(task: Task) {}
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onEdit(task: Task) {}
   }
 
   await TestBed.configureTestingModule({
@@ -123,6 +127,24 @@ describe('ListItemComponent', () => {
 
       expect(onRemoveTaskSpy).toHaveBeenCalledWith(fakeTask);
     });
+
+    it('deve emitir um evento de editar tarefa', async () => {
+      const fakeTask: Task = {
+        id: '1',
+        title: 'Nome da Tarefa',
+        completed: false,
+      };
+
+      const { fixture, testHelper } = await setup(fakeTask);
+
+      const onEditTaskSpy = jest.spyOn(fixture.componentInstance, 'onEdit');
+
+      fixture.detectChanges();
+
+      testHelper.click('list-item-edit-action');
+
+      expect(onEditTaskSpy).toHaveBeenCalledWith(fakeTask);
+    });
   });
 
   describe('quando a tarefa estiver concluída', () => {
@@ -191,6 +213,24 @@ describe('ListItemComponent', () => {
       testHelper.click('list-item-remove-action');
 
       expect(onRemoveTaskSpy).toHaveBeenCalledWith(fakeTask);
+    });
+
+    it('deve emitir um evento de editar tarefa', async () => {
+      const fakeTask: Task = {
+        id: '1',
+        title: 'Nome da Tarefa',
+        completed: true,
+      };
+
+      const { fixture, testHelper } = await setup(fakeTask);
+
+      const onEditTaskSpy = jest.spyOn(fixture.componentInstance, 'onEdit');
+
+      fixture.detectChanges();
+
+      testHelper.click('list-item-edit-action');
+
+      expect(onEditTaskSpy).toHaveBeenCalledWith(fakeTask);
     });
   });
 });
