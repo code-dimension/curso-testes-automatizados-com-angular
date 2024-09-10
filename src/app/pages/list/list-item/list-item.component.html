@@ -24,6 +24,14 @@
       }
 
       <button
+        class="btn btn-secondary btn-xs"
+        data-testid="list-item-edit-action"
+        (click)="onEdit()"
+      >
+        Editar
+      </button>
+
+      <button
         class="btn btn-error btn-xs"
         data-testid="list-item-remove-action"
         (click)="onRemove()"
