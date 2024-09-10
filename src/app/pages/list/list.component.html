@@ -11,6 +11,7 @@
     data-testid="todo-list-item"
     (complete)="onComplete($event)"
     (remove)="onRemove($event)"
+    (edit)="onEdit($event)"
   ></app-list-item>
   } @empty {
   <app-no-items class="flex justify-center" />
@@ -26,6 +27,7 @@
     data-testid="completed-list-item"
     (notComplete)="onNotComplete($event)"
     (remove)="onRemove($event)"
+    (edit)="onEdit($event)"
   ></app-list-item>
   } @empty {
   <app-no-items class="flex justify-center" />

@@ -4,7 +4,7 @@ import { Task } from 'src/app/shared/interfaces/task.interface';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { NoItemsComponent } from './no-items/no-items.component';
 import { ListItemComponent } from './list-item/list-item.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -14,7 +14,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
+
   tasksService = inject(TasksService);
+  router = inject(Router);
 
   tasks = signal<Task[]>([]);
 
@@ -44,6 +46,10 @@ export class ListComponent implements OnInit {
     this.tasksService.delete(task.id).subscribe((task) => {
       this.removeTask(task);
     });
+  }
+
+  onEdit(task: Task) {
+    this.router.navigate(['edit', task.id]);
   }
 
   private updateTask(task: Task) {
