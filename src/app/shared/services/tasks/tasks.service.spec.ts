@@ -129,4 +129,24 @@ describe('TasksService', () => {
 
     expect(result).toEqual(fakeTask);
   }));
+
+  it('getById() deve retornar uma tarefa', fakeAsync(() => {
+    const fakeTask: Task = { id: '1', title: 'Item 1', completed: false };
+
+    let result: Task | null = null;
+
+    service.getById(fakeTask.id).subscribe((task: Task) => {
+      result = task;
+    });
+
+    const request = httpTestingController.expectOne(req => {
+      return req.method === 'GET' && req.url === `/api/tasks/${fakeTask.id}`;
+    });
+
+    request.flush(fakeTask);
+
+    tick();
+
+    expect(result).toEqual(fakeTask);
+  }));
 });
