@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { getTaskByIdResolver } from './shared/resolvers/get-task-by-id/get-task-by-id.resolver';
 
 export const appRoutes: Route[] = [
   {
@@ -15,6 +16,9 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'edit/:id',
+    resolve: {
+      task: getTaskByIdResolver,
+    },
     loadComponent: () =>
       import('./pages/edit-task/edit-task.component').then(
         (m) => m.EditTaskComponent
