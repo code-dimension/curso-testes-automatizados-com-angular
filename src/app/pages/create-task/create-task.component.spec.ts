@@ -6,7 +6,8 @@ import { FakeTasksService } from '@testing/mocks/fake-tasks.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Task, TaskWithoutId } from 'src/app/shared/interfaces/task.interface';
-import { MockProvider } from 'ng-mocks';
+import { MockDirective, MockProvider } from 'ng-mocks';
+import { ButtonXsDirective } from 'src/app/shared/directives/button/button.directive';
 
 describe('CreateTaskComponent', () => {
   let fixture: ComponentFixture<CreateTaskComponent>;
@@ -19,6 +20,16 @@ describe('CreateTaskComponent', () => {
       imports: [CreateTaskComponent],
       providers: [MockProvider(TasksService)],
     }).compileComponents();
+
+    
+    TestBed.overrideComponent(CreateTaskComponent, {
+      remove: {
+        imports: [ButtonXsDirective],
+      },
+      add: {
+        imports: [MockDirective(ButtonXsDirective)],
+      },
+    });
 
     fixture = TestBed.createComponent(CreateTaskComponent);
     testHelper = new TestHelper(fixture);

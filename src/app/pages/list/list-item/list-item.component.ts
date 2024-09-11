@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/shared/interfaces/task.interface';
+import { ButtonXsDirective } from 'src/app/shared/directives/button/button.directive';
 
 @Component({
   selector: 'app-list-item',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonXsDirective],
   templateUrl: './list-item.component.html',
   styleUrl: './list-item.component.scss',
 })

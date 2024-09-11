@@ -7,7 +7,7 @@
     <div class="w-full card-actions justify-end">
       @if (task().completed) {
       <button
-        class="btn btn-primary btn-xs"
+        appButtonXs="primary"
         data-testid="list-item-mark-as-pending-action"
         (click)="onMarkAsPending()"
       >
@@ -15,7 +15,7 @@
       </button>
       } @else {
       <button
-        class="btn btn-primary btn-xs"
+        appButtonXs="primary"
         data-testid="list-item-complete-action"
         (click)="onComplete()"
       >
@@ -24,7 +24,7 @@
       }
 
       <button
-        class="btn btn-secondary btn-xs"
+        appButtonXs="secondary"
         data-testid="list-item-edit-action"
         (click)="onEdit()"
       >
@@ -32,7 +32,7 @@
       </button>
 
       <button
-        class="btn btn-error btn-xs"
+        appButtonXs="error"
         data-testid="list-item-remove-action"
         (click)="onRemove()"
       >

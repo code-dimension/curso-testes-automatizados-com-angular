@@ -9,11 +9,12 @@ import {
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { TaskWithoutId } from 'src/app/shared/interfaces/task.interface';
 import { Router } from '@angular/router';
+import { ButtonXsDirective } from 'src/app/shared/directives/button/button.directive';
 
 @Component({
   selector: 'app-create-task',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonXsDirective],
   templateUrl: './create-task.component.html',
   styleUrl: './create-task.component.scss',
 })

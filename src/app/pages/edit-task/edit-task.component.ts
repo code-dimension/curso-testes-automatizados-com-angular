@@ -6,13 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ButtonXsDirective } from 'src/app/shared/directives/button/button.directive';
 import { Task, TaskWithoutId } from 'src/app/shared/interfaces/task.interface';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 
 @Component({
   selector: 'app-edit-task',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ButtonXsDirective],
   templateUrl: './edit-task.component.html',
   styleUrl: './edit-task.component.scss',
 })

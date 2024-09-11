@@ -5,11 +5,12 @@ import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { NoItemsComponent } from './no-items/no-items.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { Router, RouterLink } from '@angular/router';
+import { ButtonDirective } from 'src/app/shared/directives/button/button.directive';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, NoItemsComponent, ListItemComponent, RouterLink],
+  imports: [CommonModule, NoItemsComponent, ListItemComponent, RouterLink, ButtonDirective],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
