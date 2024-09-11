@@ -7,6 +7,7 @@ const buttonClasses = new Map<string, string>([
   ['ghost', 'btn-ghost'],
   ['link', 'btn-link'],
   ['neutral', 'btn-neutral'],
+  ['error', 'btn-error'],
 ])
 
 @Directive({
