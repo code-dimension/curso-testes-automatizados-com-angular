@@ -35,6 +35,7 @@ describe('ButtonDirective', () => {
       <button appButton="ghost" data-testid="ghost"></button>
       <button appButton="link" data-testid="link"></button>
       <button appButton="neutral" data-testid="neutral"></button>
+      <button appButton="error" data-testid="error"></button>
     `);
 
     expect(testHelper.queryByTestId('primary').nativeElement.className).toBe(
@@ -54,6 +55,9 @@ describe('ButtonDirective', () => {
     );
     expect(testHelper.queryByTestId('neutral').nativeElement.className).toBe(
       'btn btn-neutral'
+    );
+    expect(testHelper.queryByTestId('error').nativeElement.className).toBe(
+      'btn btn-error'
     );
   });
 
@@ -81,6 +85,7 @@ describe('ButtonXsDirective', () => {
       <button appButtonXs="ghost" data-testid="ghost"></button>
       <button appButtonXs="link" data-testid="link"></button>
       <button appButtonXs="neutral" data-testid="neutral"></button>
+      <button appButtonXs="error" data-testid="error"></button>
     `);
 
     expect(testHelper.queryByTestId('primary').nativeElement.className).toBe(
@@ -100,6 +105,10 @@ describe('ButtonXsDirective', () => {
     );
     expect(testHelper.queryByTestId('neutral').nativeElement.className).toBe(
       'btn btn-xs btn-neutral'
+    );
+
+    expect(testHelper.queryByTestId('error').nativeElement.className).toBe(
+      'btn btn-xs btn-error'
     );
   });
 
