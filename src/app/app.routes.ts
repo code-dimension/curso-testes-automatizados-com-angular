@@ -24,4 +24,9 @@ export const appRoutes: Route[] = [
         (m) => m.EditTaskComponent
       ),
   },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login.component').then((m) => m.LoginComponent),
+  },
 ];
