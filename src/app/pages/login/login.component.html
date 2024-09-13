@@ -30,9 +30,15 @@
           data-testid="login-password"
         />
       </label>
-  
+      
+      @if (showAuthFailedMessage()) {
+        <section class="text-error" data-testid="login-auth-failed">
+          Usuário ou senha estão inválidos
+        </section>
+      }
+
       <section class="flex justify-end">
-        <button appButtonXs="primary" type="submit">Autenticar</button>
+        <button appButtonXs="primary" type="submit" [disabled]="form.invalid">Autenticar</button>
       </section>
     </form>
   </section>
