@@ -13,19 +13,32 @@ describe('AuthTokenManagerService', () => {
       providers: [
         MockProvider(LocalStorageToken, {
           setItem: jest.fn(),
+          getItem: jest.fn(),
         }),
       ],
     });
-    
+
     service = TestBed.inject(AuthTokenManagerService);
     storage = TestBed.inject(LocalStorageToken);
   });
 
   it('deve adicionar o token ao local storage', () => {
     const fakeToken = 'fake-token';
-    
+
     service.setToken(fakeToken);
 
     expect(storage.setItem).toHaveBeenCalledWith('auth-token', fakeToken);
+  });
+
+  it('deve recuperar o token do local storage', () => {
+    const fakeToken = 'fake-token';
+
+    (storage.getItem as jest.Mock).mockReturnValue(fakeToken);
+
+    const result = service.getToken();
+
+    expect(storage.getItem).toHaveBeenCalledWith('auth-token');
+
+    expect(result).toBe(fakeToken);
   });
 });
