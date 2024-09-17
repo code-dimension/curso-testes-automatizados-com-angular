@@ -8,9 +8,13 @@ export class AuthTokenManagerService {
 
   #tokenKey = 'auth-token';
 
-  localStorage = inject(LocalStorageToken);
+  #localStorage = inject(LocalStorageToken);
 
   setToken(token: string) {
-    this.localStorage.setItem(this.#tokenKey, token);
+    this.#localStorage.setItem(this.#tokenKey, token);
+  }
+
+  getToken() {
+    return this.#localStorage.getItem(this.#tokenKey);
   }
 }
