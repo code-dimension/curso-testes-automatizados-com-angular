@@ -11,14 +11,14 @@ import { AuthTokenManagerService } from '../auth-token-manager/auth-token-manage
 describe('LoginFacadeService', () => {
   let service: LoginFacadeService;
   let authService: AuthService;
-  let authStoreService: AuthStoreService; 
+  let authStoreService: AuthStoreService;
   let authTokenManagerService: AuthTokenManagerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockProviders(AuthService, AuthStoreService, AuthTokenManagerService)
-      ]
+        MockProviders(AuthService, AuthStoreService, AuthTokenManagerService),
+      ],
     });
 
     service = TestBed.inject(LoginFacadeService);
@@ -27,55 +27,83 @@ describe('LoginFacadeService', () => {
     authTokenManagerService = TestBed.inject(AuthTokenManagerService);
   });
 
-  it('deve autenticar o usuário', fakeAsync(() => {
-    const fakeEmail = 'correto@dominio.com';
-    const fakePassword = '123456';
+  describe('login()', () => {
+    it('deve autenticar o usuário', fakeAsync(() => {
+      const fakeEmail = 'correto@dominio.com';
+      const fakePassword = '123456';
+
+      const fakeAuthToken = { token: 'fake-jwt-token' };
+
+      let result: boolean | null = null;
+
+      (authService.login as jest.Mock).mockReturnValue(of(fakeAuthToken));
+
+      service.login(fakeEmail, fakePassword).subscribe(() => {
+        result = true;
+      });
+
+      tick();
+
+      expect(authService.login).toHaveBeenCalledWith(fakeEmail, fakePassword);
+
+      expect(authStoreService.setAsLoggedIn).toHaveBeenCalled();
+
+      expect(authTokenManagerService.setToken).toHaveBeenCalledWith(
+        fakeAuthToken.token
+      );
+
+      expect(result).toBe(true);
+    }));
+
+    it('deve retornar um erro quando a autenticação falhar', fakeAsync(() => {
+      const fakeEmail = 'errado@dominio.com';
+      const fakePassword = '123';
+
+      let result: HttpErrorResponse | null = null;
+
+      (authService.login as jest.Mock).mockReturnValue(
+        throwError(() => new HttpErrorResponse({ status: 401 }))
+      );
+
+      service.login(fakeEmail, fakePassword).subscribe({
+        error: (response) => {
+          result = response;
+        },
+      });
+
+      tick();
+
+      expect(authService.login).toHaveBeenCalledWith(fakeEmail, fakePassword);
+
+      expect(authStoreService.setAsLoggedIn).not.toHaveBeenCalled();
+
+      expect(authTokenManagerService.setToken).not.toHaveBeenCalled();
+
+      expect((result as unknown as HttpErrorResponse).status).toBe(401);
+    }));
+  });
+
+  describe('setAsLoggedInIfStorageTokenExists()', () => {
     
-    const fakeAuthToken = { token: 'fake-jwt-token' };
+    it('deve autenticar o usuário', () => {
+      
+      (authTokenManagerService.getToken as jest.Mock).mockReturnValue('fake-token');
 
-    let result: boolean | null = null;
+      service.setAsLoggedInIfStorageTokenExists();
 
-    (authService.login as jest.Mock).mockReturnValue(of(fakeAuthToken));
-
-    service.login(fakeEmail, fakePassword).subscribe(() => {
-      result = true;
+      expect(authTokenManagerService.getToken).toHaveBeenCalled();
+      expect(authStoreService.setAsLoggedIn).toHaveBeenCalled();
     });
 
-    tick();
+    it('não deve autenticar o usuário', () => {
+      
+      (authTokenManagerService.getToken as jest.Mock).mockReturnValue(null);
 
-    expect(authService.login).toHaveBeenCalledWith(fakeEmail, fakePassword);
+      service.setAsLoggedInIfStorageTokenExists();
 
-    expect(authStoreService.setAsLoggedIn).toHaveBeenCalled();
-    
-    expect(authTokenManagerService.setToken).toHaveBeenCalledWith(fakeAuthToken.token);
-
-    expect(result).toBe(true);
-  }));
-
-  it('deve retornar um erro quando a autenticação falhar', fakeAsync(() => {
-    const fakeEmail = 'errado@dominio.com';
-    const fakePassword = '123';
-
-    let result: HttpErrorResponse | null = null;
-
-    (authService.login as jest.Mock).mockReturnValue(
-      throwError(() => new HttpErrorResponse({ status: 401 }))
-    );
-
-    service.login(fakeEmail, fakePassword).subscribe({
-      error: (response) => {
-        result = response;
-      }
+      expect(authTokenManagerService.getToken).toHaveBeenCalled();
+      expect(authStoreService.setAsLoggedIn).not.toHaveBeenCalled();
     });
 
-    tick();
-
-    expect(authService.login).toHaveBeenCalledWith(fakeEmail, fakePassword);
-
-    expect(authStoreService.setAsLoggedIn).not.toHaveBeenCalled();
-
-    expect(authTokenManagerService.setToken).not.toHaveBeenCalled();
-
-    expect((result as unknown as HttpErrorResponse).status).toBe(401);
-  }));
+  });
 });
