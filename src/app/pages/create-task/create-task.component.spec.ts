@@ -70,4 +70,16 @@ describe('CreateTaskComponent', () => {
 
     expect(navigateByUrlSpy).toHaveBeenCalledWith('/');
   });
+
+  it('não deve criar uma tarefa quando o formulário estiver inválido', () => {
+    const navigateByUrlSpy = jest.spyOn(router, 'navigateByUrl');
+
+    const formDebugEl = testHelper.queryByTestId('create-task-form');
+
+    formDebugEl.triggerEventHandler('submit', null);
+
+    expect(tasksService.post).not.toHaveBeenCalled();
+
+    expect(navigateByUrlSpy).not.toHaveBeenCalledWith('/');
+  });
 });
