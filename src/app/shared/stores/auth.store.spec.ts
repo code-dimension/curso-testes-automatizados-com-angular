@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { AuthStoreService } from './auth.store';
 
@@ -19,4 +19,28 @@ describe('AuthStoreService', () => {
 
     expect(service.isLoggedIn()).toBe(true); 
   });
+
+  it('deve emitir um evento quando o usuário logar e deslogar', fakeAsync(() => {
+    let result: boolean | null = null;
+
+    service.isLoggedIn$().subscribe((value) => {
+      result = value
+    });
+
+    tick();
+
+    expect(result).toBe(false);
+
+    service.setAsLoggedIn();
+
+    tick();
+
+    expect(result).toBe(true);
+
+    service.setAsLoggedOut();
+
+    tick();
+
+    expect(result).toBe(false);
+  }))
 });
