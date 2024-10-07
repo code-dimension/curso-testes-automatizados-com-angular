@@ -7,7 +7,9 @@
     "start:app": "nx serve",
     "start:json-server": "json-server json-server/db.json",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "test:unit": "npx nx test --testPathPattern=/app",
+    "test:integration": "npx nx test --testPathPattern=/integration"
   },
   "private": true,
   "dependencies": {
