@@ -7,8 +7,8 @@ export default defineConfig({
     ...nxE2EPreset(__filename, {
       cypressDir: 'src',
       webServerCommands: {
-        default: 'nx run gerenciador-tarefas:serve:development',
-        production: 'nx run gerenciador-tarefas:serve:production',
+        default: 'nx run gerenciador-tarefas:serve-static',
+        production: 'nx run gerenciador-tarefas:serve-static',
       },
       ciWebServerCommand: 'nx run gerenciador-tarefas:serve-static',
     }),
