@@ -9,7 +9,10 @@
     "build": "nx build",
     "test": "nx test",
     "test:unit": "npx nx test --testPathPattern=/app",
-    "test:integration": "npx nx test --testPathPattern=/integration"
+    "test:integration": "npx nx test --testPathPattern=/integration",
+    "test:e2e": "nx run e2e:e2e",
+    "test:e2e:headed": "nx run e2e:open-cypress",
+    "test:e2e:ci": "nx run e2e:e2e-ci --record --key d647dccf-5b83-4308-a264-6a4e2189ba74"
   },
   "private": true,
   "dependencies": {
