@@ -25,19 +25,15 @@ describe('fluxo de autenticação', () => {
   context('quando o usuário estiver logado', () => {
     beforeEach(() => {
       cy.setUserAsLoggedIn();
-      cy.visit('/'); 
+      cy.visit('/');
     });
 
     it('deve permanecer na rota de listagem', () => {
       cy.location('pathname').should('equal', '/');
     });
 
-    it.only('deve fazer o logout do usuário', () => {
-      cy.pause();
-
+    it('deve fazer o logout do usuário', () => {
       cy.getByTestId('header-logout').click();
-
-      cy.pause();
 
       cy.location('pathname').should('equal', '/login');
     });
