@@ -16,6 +16,7 @@ declare namespace Cypress {
   interface Chainable<Subject> {
     getByTestId(testId: string): Chainable<JQuery<HTMLElement>>;
     setUserAsLoggedIn(): void;
+    isCheckboxChecked(testId: string): Chainable<boolean>;
   }
 }
 
@@ -27,4 +28,8 @@ Cypress.Commands.add('setUserAsLoggedIn', () => {
   cy.window().then((win) => {
     win.localStorage.setItem('auth-token', 'fake-jwt-token');
   })
+});
+
+Cypress.Commands.add('isCheckboxChecked', (testId: string) => {
+  return cy.getByTestId(testId).then($checkbox => $checkbox.is(':checked'));
 });
